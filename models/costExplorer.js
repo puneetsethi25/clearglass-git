@@ -142,7 +142,7 @@ costExplorer.find = function (params, callback) {
                         }]
                     })
                 } else {
-                    // adding amount to parent value 
+                    // adding amount to project value 
                     if (!clients[clIndex].breakdown[proIndex].amount) { clients[clIndex].breakdown[proIndex].amount = 0; }
                     clients[clIndex].breakdown[proIndex].amount = clients[clIndex].breakdown[proIndex].amount + el.Amount;
                     // debugger;
@@ -190,7 +190,6 @@ costExplorer.find = function (params, callback) {
                                 // adding amount in the type 
                                 if (!clients[clIndex].breakdown[proIndex].breakdown[parIndex].breakdown[typeIndex].amount) { clients[clIndex].breakdown[proIndex].breakdown[parIndex].breakdown[typeIndex].amount = 0; }
                                 clients[clIndex].breakdown[proIndex].breakdown[parIndex].breakdown[typeIndex].amount = clients[clIndex].breakdown[proIndex].breakdown[parIndex].breakdown[typeIndex].amount + el.Amount;
-
                                 clients[clIndex].breakdown[proIndex].breakdown[parIndex].breakdown[typeIndex].breakdown.push({
                                     id: el.cost_id,
                                     name: el.subtype,
@@ -203,6 +202,8 @@ costExplorer.find = function (params, callback) {
                         if (el.type_id) {
                             // if there is type_id then it means that type id is parent id
                             // it has parent so lets check if type exists
+                            if (!clients[clIndex].breakdown[proIndex].amount) { clients[clIndex].breakdown[proIndex].amount = 0; }
+                            clients[clIndex].breakdown[proIndex].amount = clients[clIndex].breakdown[proIndex].amount + el.Amount;
                             var parIndex = clients[clIndex].breakdown[proIndex].breakdown.findIndex(parent => parent.id == el.type_id);
                             if (parIndex < 0) {
                                 clients[clIndex].breakdown[proIndex].breakdown.push({
@@ -219,8 +220,6 @@ costExplorer.find = function (params, callback) {
 
                             } else {
                                 // adding amount to parent value 
-                                if (!clients[clIndex].breakdown[proIndex].breakdown[parIndex].amount) { clients[clIndex].breakdown[proIndex].breakdown[parIndex].amount = 0; }
-                                clients[clIndex].breakdown[proIndex].breakdown[parIndex].amount = clients[clIndex].breakdown[proIndex].breakdown[parIndex].amount + el.Amount;
                                 clients[clIndex].breakdown[proIndex].breakdown[parIndex].breakdown.push({
                                     id: el.cost_id,
                                     name: el.subtype,
